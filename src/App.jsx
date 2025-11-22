@@ -112,6 +112,7 @@ const App = () => {
 
         // Skip fetching real data if in fallback mode
         if (isFallback) {
+            setProducts([]);
             setLoading(false);
             return; 
         }
@@ -122,11 +123,9 @@ const App = () => {
         const productsRef = collection(db, getProductCollectionPath(dataAppId));
         
         // Query: Only show products marked 'available: true'
-        // Note: orderBy is commented out to avoid requiring an index, sorting will be done locally.
         const productsQuery = query(
             productsRef,
             where('available', '==', true),
-            // orderBy('createdAt', 'desc') 
         );
 
         const unsubscribeSnapshot = onSnapshot(productsQuery, (snapshot) => {
@@ -212,6 +211,8 @@ const App = () => {
 
     // --- Main Render Logic ---
 
+    const adminUiLink = "https://fresh-eats-admin-ui.onrender.com/"; // Use the deployed Admin URL
+
     if (error && !isFallback) {
         return (
             <div className="min-h-screen flex items-center justify-center p-4 bg-red-50">
@@ -245,7 +246,7 @@ const App = () => {
                         <p className="text-sm">
                             No active products found. Please add items using the Admin UI: 
                             <a 
-                                href="https://fresh-eats-admin-ui.onrender.com/" 
+                                href={adminUiLink}
                                 target="_blank" 
                                 rel="noopener noreferrer" 
                                 className="text-indigo-600 hover:underline flex items-center justify-center mt-2"
@@ -256,7 +257,7 @@ const App = () => {
                         {isFallback && (
                             <p className="text-xs text-red-500 mt-4 p-2 bg-red-100 border border-red-300 rounded-md flex items-center justify-center">
                                 <AlertTriangle className="w-4 h-4 mr-1 flex-shrink-0" />
-                                **Read-Only Mode:** Display is static outside Canvas.
+                                **Read-Only Mode:** Data reading is disabled because the required environment variables for Firebase were not found (expected when running outside Canvas, like on Render).
                             </p>
                         )}
                     </div>
