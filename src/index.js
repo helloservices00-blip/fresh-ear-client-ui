@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css'; // Assuming you have a basic CSS file for Tailwind imports
-import App from './App'; // This assumes your main component is in App.js or App.jsx
+import App from './App.jsx';
+import './index.css'; // Assuming you have a basic index.css for styling setup
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    {/* The App component contains all the menu logic and UI */}
     <App />
-  </React.StrictMode>
+  </React.StrictMode>,
 );
